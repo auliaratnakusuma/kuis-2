@@ -17,7 +17,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">QUIZ-2</a>
+          <a class="navbar-brand" href="#">Praktikum SIT</a>
         </div>
         <div class="navbar-collapse collapse">
         </div><!--/.nav-collapse -->
@@ -26,22 +26,30 @@
 
     <div class="container">
       <div class="jumbotron">
-        
-      
+        <h3>Remidi Quiz 2</h3>
+      </div>
       <table class="table table-bordered">
           <tr>
             <td>ID</td>
-            <td>Country Name</td>
-            <td>Code</td>
+            <td>Weather</td>
+            <td>Picture</td>
           </tr>
-          <tr>
-            <td>5</td>
-            <td>Afganistan</td>
-            <td>AF</td>
-          </tr>
-          
+		  
+		<?php
+		require_once('nusoap/lib/nusoap.php');
+		$url = 'http://wsf.cdyne.com/WeatherWS/Weather.asmx?WSDL';
+		$client = new nusoap_client($url, 'WSDL');
+		$result = $client->call('GetWeatherInformation');
+		//print_r($result['GetWeatherInformationResult']['WeatherDescription']);
+		foreach($result['GetWeatherInformationResult']['WeatherDescription'] as $weather){
+		echo "<tr>";
+		echo "<td>".$weather['WeatherID']."</td>"; 
+		echo "<td>".$weather['Description']."</td>";
+		echo "<td> <img src='".$weather['PictureURL']."'></td>";
+		echo "</tr>";
+		}
+		?>
         </table>
-		</div>
 
 </body>
 </html>
